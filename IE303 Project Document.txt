@@ -1,0 +1,88 @@
+                      Solving Real Life Problems with Mathematical Modelling
+                                    IE303 Operations Research I
+                                           Course Project
+                                            Spring, 2025
+
+
+
+You will work on one of the following real-world optimization problems using mathematical
+programming techniques such as Linear Programming (LP), Integer Programming (IP), or Mixed
+Integer Programming (MIP). Your task is to formulate the problem mathematically, collect relevant
+data, and propose a solution using an appropriate solver (e.g., Excel Solver, Python with PuLP, or any
+optimization software you prefer).
+Each problem consists of a realistic scenario with defined objectives, constraints, and suggested
+data sources. You are encouraged to validate your model using real or estimated data, and compare
+your solution with existing practices.
+It is a group project with up to 4 people in a group.
+
+Date          Deliverable
+
+May 13        Form groups (up to 4 people) and select project topic – submit via Teams
+
+May 23        Submit Progress Report I (template will be shared):
+                  •     How you’ll collect/estimate data
+                  •     Draft model: decision variables, objective, constraints (can be verbal at this
+                        point)
+                  •     (Optional): Toy model results with sample data
+              Submit Progress Report II (template will be shared)
+              Validate your model:
+June 5            • Implemented model in a solver
+                  • Model output and interpretation
+                  • Sensitivity (what if analysis/ scenarios)
+
+June 13       Present your final model, results, interpretation, and recommendations
+PICK ONE OF THE FOLLOWING IDEAS (or come with your own but get approval from me):
+
+1. Scheduling Problem: Classroom Assignment for Scheduled Courses
+Problem Statement
+Use the existing semester course schedule at IUS to create an optimized classroom assignment plan.
+Evaluate whether more efficient classroom usage is possible.
+Objective
+Minimize the total unused seat-hours, i.e., the difference between room capacity and course
+enrollment across all assignments:
+Constraints
+   • No overlapping courses in the same room
+   • Room capacity must be sufficient for the enrolled students
+   • Each course must be assigned during its scheduled time
+   • Each course is assigned exactly one classroom
+   • What else?
+Data to Collect (you may need more, these are the data comes to my mind)
+   • Course timetable (course, times, enrollment numbers)
+   • Room availability and seating capacity
+       (Data can be found in the IUS course schedules or requested from the program coordinator)
+
+Compare your optimized plan with the current classroom assignments and provide recommendations
+for improvement.
+2. Facility Location Problem: Placement of Recycling Bins on Campus
+
+Problem Statement
+Determine the optimal placement of recycling bins within IUS buildings so that students and staff
+can easily access them with minimal walking distance.
+Objective
+Minimize the total weighted walking distance from all demand points (classrooms, offices, lounges)
+to their assigned recycling bin, where each point is weighted by the estimated number of users.
+Constraints
+    • Bins can only be placed at predefined candidate locations (e.g., hallways, building entrances)
+    • Each classroom or office should be assigned to the nearest bin
+    • Limited number of bins (due to budget or space constraints -you can try different numbers
+         here: 2/3/4/5 bins at each floor)
+Data to Collect (you may need more, these are the data comes to my mind)
+    • Floor plans of IUS buildings (classroom and candidate bin locations -bin locations you will
+         need to decide: make sure you have at least 10 candidate locations at each floor )
+    • Estimated walking distances between each classroom and candidate bin locations
+         (Measurements can be estimated using building maps or measured directly)
+    • Estimated number of people in each area. You can use IUS course schedule to count how
+         many sessions are held in each classroom or make reasonable assumptions and write them
+         clearly.
+
+Report your location plan and corresponding weighted walking distance per day. Optionally: you
+can interview cleaning personnel and estimate their bin collection and use this data somehow?
+
+What do you mean by weighted?
+Let’s say:
+    • Classroom A has 80 seats
+    • Classroom B has 20 seats
+    • Both are 10 meters from a candidate bin
+Without weights: their distance contribution is equal
+With weights: Room A contributes 4x more to the total cost, because it has more users
+

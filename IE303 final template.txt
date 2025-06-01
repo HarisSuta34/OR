@@ -1,0 +1,58 @@
+﻿IE303 Operations Research I 
+Final Project Report
+Spring 2025
+
+Group Members:
+Name Surname, Name Surname, Name Surname
+Project Title:
+Your project title
+
+1. Problem Definition and Objective 
+Briefly state the aim of your project in one clear sentence. If you have made any general assumptions mention it here.
+
+2. Data Collection and Estimation (10 points)
+Data Used:
+· Room capacities, course schedules, student numbers, building layouts… what else?
+· Collected from where?
+Assumptions:
+· Did you remove any courses, why?
+· Did you include all classrooms such as studios and labs ?
+· You assumed the number of users in classroom is weighted to the size of the classroom? Or assumed the same weight?
+· Similar assumptions here
+
+3. Final Mathematical Model (30 points)
+Decision Variables:
+Give your decision variables and indexes here with definitions and sets.
+Parameters:
+Give your parameters here such as distances, capacities etc. (given values)
+Objective Function:
+Give your objective function
+Constraints:
+Give your constraints in mathematical form and then explanation. Example:
+
+i∈Cxij≤2 ∀j∈P
+Each professor can be assigned to teach at most 2 courses (or use at most 2 classrooms).
+
+4. Model Implementation and Results (20 points)
+Solver Used:
+PuLP / Excel Solver / something else?
+Results (based on full dataset):
+Give the current solution for your dataset. (according to current assignment, how many seats are empty?)
+Give your model’s solution.
+Interpretation:
+Compare the two results. Explain what improved (e.g., fewer empty seats, better time utilization, reduced walking). Mention any trade-offs or unexpected outcomes.
+
+5. Validation and Sensitivity Analysis (10 points)
+Test your model with different input scenarios to check its robustness. Try extreme or edge cases to see if the model behaves logically and efficiently.
+Examples:
+· What if student numbers increase by 10%—can the current solution handle it?
+· What is the maximum number of students your model can support without violating constraints?
+· If the number of recycling points on campus is reduced, how does the average walking distance to the nearest point change?
+
+6. Conclusions and Recommendations
+Summarize what your model achieves (e.g., better allocation, reduced walking, balanced load). Suggest possible improvements (e.g., add real-time data, connect to IUS systems). Keep it brief and practical.
+
+APPENDICES (50 points)
+Give me the link of your OneDrive Folder, where you put your model.
+In this folder there should be also your input files and most importantly SOLUTION.
+
