@@ -1,0 +1,108 @@
+IE303 Operations Research I – Course Project
+Progress Report I
+Members: Names: Haris Šuta, Erol Karišik, Faris Balić, Kerim Omerović
+Project Title: Classroom Assignment for Scheduled Courses
+1. Problem Definition and Objective
+The purpose of this model is to arrange classrooms so that unused seats are minimized.
+The goal is to reduce the gap between the students planned per session and those
+actually present in every subject.
+Assumptions:
+All courses book one classroom for the scheduled time.
+Students in every course are taught in a different location.
+The times for courses are set at the start of the semester and do not change.
+Course times are assumed fixed and do not change during the semester.
+Walks to and from campus are not counted in the equation.
+Work areas inside the building are examined first to find suitable places for every
+student.
+We did not include courses with a combination of students or several sections.
+
+2. Data Collection / Estimation Plan
+Data Needed:
+Every course and its timetable is available for students to look at, as well as
+student enrollment.
+Details about each classroom include its ID, the name, capacity
+Classroom assignments are is requested from professor for students and
+can be checked with online .
+
+Data Collection:
+All classroom capacities are taken from the official quota list from IUS (that
+professor provided us with).
+Program coordinator (professor Ozge) was contacted to get course
+schedules or the data will be drawn from the regular semester course
+documents.
+Classroom assignments currently scheduled will be used for the assignments.
+
+Assumptions:
+You cannot change the duration times for course activities.
+How many students enroll is an accurate reflection of how many will attend
+lectures.
+Classrooms should be available during their assigned times, except when
+there is a clash with some other course
+Capacity of each classroom represents maximum number of chairs in it.
+
+3. Preliminary Mathematical Model (Draft)
+Decision Variables:
+
+𝑿𝒄, 𝒓 = {𝟏, 𝒊𝒇 𝒄𝒐𝒖𝒓𝒔𝒆 𝒄 𝒊𝒔 𝒂𝒔𝒔𝒊𝒈𝒏𝒆𝒅 𝒕𝒐 𝒓𝒐𝒐𝒎 𝒆
+		𝟎, 𝒐𝒕𝒉𝒆𝒓𝒗𝒊𝒔𝒆
+
+
+Objective Function:
+Minimize total unused seat-hours across all courses and rooms:
+
+𝑚𝑖𝑛 ∑∑(𝐶𝑎𝑝𝑎𝑐𝑖𝑡𝑦 − 𝐸𝑛𝑟𝑜𝑙𝑙𝑚𝑒𝑛𝑡 ) ∗ 𝑋𝑐, 𝑟
+	 𝑐  r
+
+Constraints:
+1. Room assignment uniqueness:
+∑ 𝑋𝑐, 𝑟 = 1 ∀𝑐
+𝑟
+
+Each course must be assigned exactly one classroom.
+2. Capacity constraint:
+𝐶𝑎𝑝𝑎𝑐𝑖𝑡𝑦 (𝑟) ≥ 𝐸𝑛𝑟𝑜𝑙𝑙𝑚𝑒𝑛𝑡(𝑐) ∗ 𝑋𝑐, 𝑟 ∀𝑐, 𝑟
+
+A clasroom can only be assigned if its capacity is big enough for number of enrolled
+students for certain course.
+
+3. No time overlap in the same room:
+For any pair of courses c,c′ with overlapping times,
+𝑋𝑐, 𝑟 + 𝑋𝑐′, 𝑟 ≤ 1 ∀𝑟
+4. Scheduled time fixed:
+Assignments respect the scheduled times of courses (modeled via constraints or prefiltering possible rooms based on availability.
+
+4. Toy Model (Optional -but highly recommended)
+Sample Data:
+Course  Enrollment      Time Slot                 Possible Rooms                                             Room Capacity
+
+Math101    30            Mon 9-11am               F1.10 (65 seats)                                                       65
+CS102         20            Mon 9-11am               F1.11 (65 seats) 						       65
+Eng103       40            Mon 11-1pm		   F1.23 (50 seats), F1.24(160 seats)                    50, 160
+	
+
+Solver Results (example):
+
+Math101 assigned to F1.10
+CS102 assigned to F1.11
+Eng103 assigned to F1.23
+Total unused seat-hours: 90.0
+
+Interpretation:
+
+No overlapping courses in the same room at the same time.
+Room capacities satisfy enrollment requirements.
+Unused seats minimized (e.g., Eng103 uses the smaller room due to enrollment).
+
+5. Next Steps
+Finalize data collection with all courses included, alongside time slots, available
+rooms and number of students per course.
+Slight modifications to the mathematical model if needed to clearly define
+every constraint, especially try to solve exam room assignments if
+applicable.
+Implement model using Python (PulP library).
+Test model with all collected data and compare it to current classroom
+assignments at University to see if we managed to improve it.
+Identify ways to improve room utilization and present practical
+recommendations.
+
+
