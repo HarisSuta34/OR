@@ -1,0 +1,118 @@
+﻿Group Members:
+Erol Karišik, Faris Balić, Haris Šuta, Kerim Omerović
+Project Title:
+Classroom Assignment for Scheduled Courses
+
+1. Problem Definition and Objective 
+The aim of this project is to assign university courses to classrooms such that the total number of unused seat-hours is minimized.
+Assumptions: 
+* Each course requires one classroom for its scheduled time slot.
+* Each room can only be used for one course at a time.
+* Course times are fixed and do not change during the semester.
+* Room capacities and course enrollments are accurately reflected in the data.
+* Only classrooms with available capacity data are considered.
+2. Data Collection and Estimation (10 points)
+Data Used:
+* Course list and student enrollments from 'CoursesWithTimeSlots.csv' (this file is actually 'AcilanDersler.xlsx' file coverted to .csv, had to convert file to .csv so we can load and read from it trough our python code with 'pandas' python library, this library cannot read .xlsx files).
+* Added time slots (day in the week and time) for each course to get schedule without any clashes once solver solve the task.
+* Classroom names and teaching capacities from 'Class Quotas  E-Campus (1).csv'.
+* Professor Ozge provided us with official IUS data for Courses scheduling.
+Assumptions:
+* Each row in the course list corresponds to a unique scheduled session (including duplicate codes for courses with multiple sessions).
+* All available classrooms (labs, studios, amphitheaters, etc.) are considered.
+* Number of students per course equals the number enrolled in the data file.
+* Each course (and each section) should have unique combination of time slot and classroom assigned to avoid clashes.
+* Courses with missing information were omitted.
+* Removed overlapping time slots (eg. 12:00-14:50 and 13:00:15:50) because solver is taking too much time to assign courses without any clashes (since it should compare each course and it is too much time consuming). Kept only 4 possible time slots: 9:00-11:50, 12:00-14:50, 15:00:17:50 and 18:00-20:50.
+* Any course with enrollment greater than the capacity of the largest room was excluded to ensure feasibility (Only such case was section 1 of Linear algebra which had 164 enrolled students, but there is no venue that has enough cappacity for that number).
+* Each course is assigned to a unique time slot and venue (classroom) combination for demonstration (We added time slots (day and time) to each course and wrote code so that solver can understand that there cannot be 2 or more course with the same time slot and same classroom assigned).
+
+3. Final Mathematical Model (30 points)
+Decision Variables:
+X_(c,r )={█(1, if course c is assigned to room r@0, otherwise)┤
+Parameters:
+* 〖Enrollment〗_c  - Number of students enrolled in course c
+* 〖Capacity〗_r  - Capacity of room r
+* 〖Time〗_c  - Time slot for course c
+* C - Set of all courses
+* R - Set of all rooms
+Objective Function:
+Minimize total unused seat-hours:
+min∑_c^1▒∑_r^1▒〖(Capacity - Enrollment) ∙ X_(c,r) 〗
+Constraints:
+Room assignment uniqueness:
+∑_r▒〖X_(c,r )= 1∀c〗
+Each course must be assigned to exactly one classroom
+
+Capacity constraint:
+〖Enrollment〗_(c )∙ X_(c,r)  ≤ 〖Capacity〗_(r )  ∀c ∈ C, ∀r ∈R
+A clasroom can only be assigned if its capacity is big enough for number of enrolled students for certain course.
+
+No time overlap in the same room:
+X_(c,r)+X_(c',r)≤ 1, ∀c,c' ∈C such that 〖Time〗_c=〖Time〗_c'
+2 courses cannot be assigned the same room if they are occuring at the same time.
+4. Model Implementation and Results (20 points)
+Solver Used:
+Python with PuLP library
+Results (based on full dataset):
+The model was solved for all courses and rooms.
+The results file ('assignment_results.csv') lists, for each course: assigned room, enrollment, room capacity, and unused seats, time slot etc.
+Solution: 4585 total unused seat hours
+* Interpretation:
+The optimized assignment minimizes empty seats, making better use of available rooms.
+* The model prevents double-booking ( same time slot and classroom combination) by enforcing the no-overlap constraint.9
+* The approach can be compared to current assignments to recommend improvements.
+
+
+
+5. Validation and Sensitivity Analysis (10 points)
+The model was tested with the full dataset.
+With realistic time slots, the solution is robust: no room is double-booked, and all enrollments fit within capacity.
+Example 1 - Students enrollments increase by 10%:
+* To test robustness, we increased all course enrollments by 10% and reran the model using the updated dataset.
+Result:  
+* The model remained feasible and produced an optimal solution, but only for limited set of classes (only those which enrollment number could fit in available classroom's capacities).
+
+
+Interpretation:
+* The total unused seat-hours decreased from 4585.0 (base scenario) to 4148.0 with 10% higher enrollments.
+* This demonstrates the better utilization of classroom space, however, in this example, not all courses have been assigned venue (classroom), since number of enrolled students in course 'Ethics in Engineering and Natural Sciences' increased to 168, and there is no classroom with such capacity and it was just omitted from assignment of classrooms.
+* If enrollments were increased further, or if more large courses appeared, infeasibility or a much higher number of unused seat-hours could arise.
+Example 2 - Removing large classrooms:
+* As part of our sensitivity analysis, we simulated a scenario where several key classrooms were made unavailable. Specifically, we removed the following three classrooms from Class quotas document:
+o A F1.24 - Amphitheater I (capacity 160)
+o B F2.16** (capacity 80)
+o B F2.17** (capacity 80)
+Result:
+
+Interpretation:
+* The model successfully found a feasible and optimal assignment for all courses that could physically fit into the available rooms, without violating any constraints.
+* With the removal of these classrooms, the total unused seat-hours increased by 450 (from 4585 to 5035) from the base case.
+* This increase is expected: without these high-capacity classrooms, scheduling becomes less efficient, as large courses have less options for assignment and assigning is becoming less optimal, leading to more unused seats overall.
+Example 3 - What is the maximum number of students your model can support without violating constraints?
+* To assess the robustness and capacity limits of our classroom assignment system, we conducted a sensitivity analysis to determine the maximum number of students the model can support without violating any constraints.
+* We systematically increased all course enrollments in fixed increments (5%) and re-ran the optimization model for each scenario. For each increment, we checked whether it was possible to assign all courses to available classrooms such that all constraints are satisfied.
+Result:
+
+
+Interpretation:
+* From this result we can conclude that maximum increase can be 1.00, which means maximum number of students is current number of students (approximately, because we can tehnically manually add number of student to Ethics course to fill biggest classroom's capacity to last place), and if we increase number of students by 5%, 'Ethics in Engineering and Science' course will have more enrolled stundes that what is capacity of biggest available classroom, which is breaking one constraint and soulution for full data set can no longer be feasible.
+6. Conclusions and Recommendations
+* The model ensures a feasible, efficient classroom assignment at minimum waste.
+* Real-time integration with course scheduling systems could improve results (using actual time slots, live enrollments).
+* For future work:  
+* Incorporate classroom preferences (e.g., labs only for lab courses).
+* Extend to exam scheduling or multi-day timetables.
+* Add soft constraints for preferred room features..
+
+
+
+APPENDICES (50 points)
+Give me the link of your OneDrive Folder, where you put your model.
+In this folder there should be also your input files and most importantly SOLUTION.
+
+IE303 Operations Research I 
+Final Project Report
+Spring 2025
+
+
